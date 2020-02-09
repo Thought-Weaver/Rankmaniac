@@ -3,6 +3,8 @@
 import sys
 import heapq
 
+alpha = 0.85
+
 # So, the current plan, since we want to extract the top 20 items is simply to
 # use heapq and its lovely nlargest functionality.
 
@@ -22,14 +24,16 @@ for line in sys.stdin:
         i = int(value)
     else:
         # Append a (rank, key) tuple to be sorted by heapq.
-        ranks.append((value.split()[0], key))
+        value = value.split(',', 1) # [rank, outlinks]
+        ranks.append(((float(value[0]), value[1]), key))
         all_lines.append(line)
 
 if i >= MAX_ITER:
-    top_k_pages = heapq.nlargest(TOP_K, ranks)
-    for tup in top_k_pages:
-        sys.stdout.write("FinalRank:%f\t%s\n" % tup)
+    top_k_pages = heapq.nlargest(TOP_K, ranks,
+            lambda x : x[0][0])
+    for k,v in top_k_pages:
+        sys.stdout.write("FinalRank:{}\t{}\n".format(k[0], v))
 else:
     sys.stdout.write("iter_num\t%d\n" % (i + 1))
-    for line in all_lines:
-        sys.stdout.write(line)
+    for k,v in ranks:
+        sys.stdout.write("{}\t{},{}".format(v, k[0], k[1]))
