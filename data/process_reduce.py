@@ -29,7 +29,7 @@ for line in sys.stdin:
 if i >= MAX_ITER:
     top_k_pages = heapq.nlargest(TOP_K, ranks)
     for r,n in top_k_pages:
-        sys.stdout.write("FinalRank:{}\t{}\n".format(r[0], n)) 
+        sys.stdout.write("FinalRank:{}\t{}\n".format(r[0], n.split(':')[1])) 
 else:
     sys.stdout.write("iter_num\t%d\n" % (i + 1))
     for line in all_lines:
