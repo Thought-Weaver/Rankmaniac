@@ -17,12 +17,12 @@ all_lines = []  # Keep a list of all lines to be passed if need be
 i = 0  # Current iteration
 
 for line in sys.stdin:
-    key, value = line.split("\t")
+    key, value = line.strip("\n").split("\t")
     if key == "iter_num":
         i = int(value)
     else:
         # Append a (rank, key) tuple to be sorted by heapq.
-        ranks.append((value.split()[0], key))
+        ranks.append((float(value.split()[0]), key))
         all_lines.append(line)
 
 if i >= MAX_ITER:
