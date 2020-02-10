@@ -22,14 +22,14 @@ for line in sys.stdin:
         i = int(value)
     else:
         # Append a (rank, key) tuple to be sorted by heapq.
-        value = value.split(',', 1) # [rank, outlinks]
+        value = value.split(',', 1)  # [rank, outlinks]
         ranks.append(((float(value[0]), value[1]), key))
         all_lines.append(line)
 
 if i >= MAX_ITER:
     top_k_pages = heapq.nlargest(TOP_K, ranks)
-    for r,n in top_k_pages:
-        sys.stdout.write("FinalRank:{}\t{}\n".format(r[0], n.split(':')[1])) 
+    for r, n in top_k_pages:
+        sys.stdout.write("FinalRank:%s\t%s\n" % (r[0], n.split(':')[1]))
 else:
     sys.stdout.write("iter_num\t%d\n" % (i + 1))
     for line in all_lines:
