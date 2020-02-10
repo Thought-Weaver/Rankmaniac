@@ -8,7 +8,9 @@ all_lines = {}
 
 for line in sys.stdin:
     key, value = line.strip("\n").split("\t")
-    if key != "iter_num":
+    if key == "iter_num":
+        sys.stdout.write(line)
+    else:
         if all_lines.get(key) is None:
             all_lines[key] = []
         all_lines[key].append(value)
@@ -27,6 +29,6 @@ for key, values in all_lines.items():
     ranks_and_outlinks[0] = str(sum)
     ranks_and_outlinks[1] = cur_rank
 
-    sys.stdout.write("%s\t%s" % (key, ",".join(ranks_and_outlinks)))
+    sys.stdout.write("%s\t%s\n" % (key, ",".join(ranks_and_outlinks)))
 
 

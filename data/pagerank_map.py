@@ -20,7 +20,9 @@ ALPHA = 0.85
 
 for line in sys.stdin:
     key, value = line.strip("\n").split("\t")
-    if key != "iter_num":
+    if key == "iter_num":
+        sys.stdout.write(line)
+    else:
         values_split = value.split(",")
         cur_rank, prev_rank, outlinks = float(values_split[0]), float(values_split[1]), values_split[2:]
 
