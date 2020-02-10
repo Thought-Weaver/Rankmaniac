@@ -9,13 +9,16 @@ for filename in EmailEnron GNPn100p05 Gnutella
 do
   echo "Testing ${filename}"
   cp ../local_test_data/${filename}.txt output.txt
+  start=$SECONDS
   for i in {1..16}
   do
     cp output.txt temp.txt
     python2 pagerank_map.py < temp.txt | sort | python2 pagerank_reduce.py | python2 process_map.py | sort | python2 process_reduce.py > output.txt
   done
+  duration=$(( SECONDS - start ))
   diff ../sols/${filename}.txt <(grep -Eo '[0-9]+$' output.txt) | wc -l
   cp output.txt results/${filename}.txt
+  echo "${duration} seconds elapsed"
 done
 
 rm temp.txt output.txt

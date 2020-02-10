@@ -27,8 +27,7 @@ for line in sys.stdin:
         cur_rank, prev_rank, outlinks = float(values_split[0]), float(values_split[1]), values_split[2:]
 
         if len(outlinks) == 0:
-            sys.stdout.write("%s\t%f\n" % (key, (cur_rank * ALPHA)))
-        else:
-            for outlink in outlinks:
-                sys.stdout.write("NodeId:%s\t%f\n" % (outlink, (cur_rank * ALPHA / len(outlinks))))
+            outlinks.append(key.split(':')[1])
+        for outlink in outlinks:
+            sys.stdout.write("NodeId:%s\t%f\n" % (outlink, (cur_rank * ALPHA / len(outlinks))))
         sys.stdout.write("%s\t%s,%s,%s\n" % (key, cur_rank, prev_rank, ",".join(outlinks)))
