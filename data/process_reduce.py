@@ -5,7 +5,6 @@ import heapq
 
 # So, the current plan, since we want to extract the top 20 items is simply to
 # use heapq and its lovely nlargest functionality.
-
 TOP_K = 20
 
 # I'm going to make the stopping criterion around 15 iterations -- that should
@@ -14,7 +13,7 @@ MAX_ITER = 15
 
 ranks = []  # Keep a list of the pageranks
 all_lines = []  # Keep a list of all lines to be passed if need be
-i = 0  # Current iteration
+i = 1  # Current iteration
 
 for line in sys.stdin:
     key, value = line.strip("\n").split("\t")
@@ -23,7 +22,7 @@ for line in sys.stdin:
     else:
         # Append a (rank, key) tuple to be sorted by heapq.
         value = value.split(',', 1)  # [rank, outlinks]
-        ranks.append(((float(value[0]), value[1]), key))
+        ranks.append(((value[0], value[1]), key))
         all_lines.append(line)
 
 if i >= MAX_ITER:

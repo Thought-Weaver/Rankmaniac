@@ -26,7 +26,7 @@ for key, values in all_lines.items():
     # Now that we've summed up the contributions from each outlink,
     # we need to swap the prev and cur rank, then set cur_rank to the sum.
     cur_rank = ranks_and_outlinks[0]
-    ranks_and_outlinks[0] = str(sum)
+    ranks_and_outlinks[0] = sum
     ranks_and_outlinks[1] = cur_rank
 
     sys.stdout.write("%s\t%s\n" % (key, ",".join(ranks_and_outlinks)))
