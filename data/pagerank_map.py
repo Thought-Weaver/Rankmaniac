@@ -24,7 +24,7 @@ for line in sys.stdin:
         sys.stdout.write(line)
     else:
         values_split = value.split(",")
-        cur_rank, prev_rank, outlinks = float(values_split[0]), float(values_split[1]), values_split[2:]
+        cur_rank, prev_rank, outlinks = float(values_split[0]), values_split[1], values_split[2:]
 
         if len(outlinks) == 0:
             outlinks.append(key.split(':')[1])

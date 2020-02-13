@@ -19,10 +19,10 @@ for key, values in all_lines.items():
     sum = 1 - ALPHA
     ranks_and_outlinks = []
     for v in values:
-        if "," not in v:
-            sum += float(v)
-        else:
+        if "," in v:
             ranks_and_outlinks = v.split(",")
+        else:
+            sum += float(v)
     # Now that we've summed up the contributions from each outlink,
     # we need to swap the prev and cur rank, then set cur_rank to the sum.
     cur_rank = ranks_and_outlinks[0]
