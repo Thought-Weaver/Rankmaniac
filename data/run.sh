@@ -10,10 +10,15 @@ do
   echo "Testing ${filename}"
   cp ../local_test_data/${filename}.txt output.txt
   start=$SECONDS
-  for i in {1..16}
+  while :
   do
+    echo .
     cp output.txt temp.txt
     python2 pagerank_map.py < temp.txt | sort | python2 pagerank_reduce.py | python2 process_map.py | sort | python2 process_reduce.py > output.txt
+    if grep "FinalRank" output.txt > /dev/null 2>&1
+    then
+      break
+    fi
   done
   duration=$(( SECONDS - start ))
   diff ../sols/${filename}.txt <(grep -Eo '[0-9]+$' output.txt) | wc -l
@@ -22,4 +27,3 @@ do
 done
 
 rm temp.txt output.txt
-

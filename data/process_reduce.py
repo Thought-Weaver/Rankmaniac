@@ -14,7 +14,7 @@ MAX_ITER = 15
 # Also going to try a dynamic stopping condition to see if that's faster than
 # a static one? This is the same error as permitted for the 15 iterations,
 # so theoretically it won't be that much faster.
-THRESHOLD = 0.01
+THRESHOLD = 0.0001
 
 ranks = []  # Keep a list of the pageranks
 prev_ranks = []  # Keep a list of the previous pageranks
@@ -29,8 +29,8 @@ for line in sys.stdin:
     else:
         # Append a (rank, key) tuple to be sorted by heapq.
         values = value.split(',', 2)  # [rank, prev_rank, outlinks]
-        ranks.append((float(value[0]), key))
-        prev_ranks.append((float(value[1]), key))
+        ranks.append((float(values[0]), key))
+        prev_ranks.append((float(values[1]), key))
         all_lines.append(line)
 
 
@@ -38,12 +38,12 @@ cur_top_k = heapq.nlargest(TOP_K, ranks)
 prev_top_k = heapq.nlargest(TOP_K, prev_ranks)
 percent_diff = sum([abs(prev_top_k[j][0] - cur_top_k[j][0]) / prev_top_k[j][0] for j in range(TOP_K)]) / TOP_K
 
-running = (i >= MAX_ITER or percent_diff <= THRESHOLD)
+stop = (i >= MAX_ITER or percent_diff <= THRESHOLD) 
 
-if running:
+if not stop:
     sys.stdout.write("iter_num\t%d\n" % (i + 1))
     for line in all_lines:
         sys.stdout.write(line)
 else:
     for r, n in cur_top_k:
-        sys.stdout.write("FinalRank:%s\t%s\n" % (r[0], n.split(':')[1]))
+        sys.stdout.write("FinalRank:%s\t%s\n" % (r, n.split(':')[1]))
